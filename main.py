@@ -24,6 +24,9 @@ bandera_opcion_b = True
 bandera_opcion_c = True
 primer_inicio_indice = True
 bandera_sonido_on = ""
+bandera_respuesta_correcta = False
+bandera_respuesta_incorrecta = False
+bandera_sin_intentos = False
 
 
 #Listas vacías para recibir los datos de la data
@@ -134,6 +137,8 @@ while running:
                 bandera_opcion_c = True
                 bandera_iniciar_preguntas = True
                 bandera_fin_del_juego = False
+                bandera_respuesta_correcta = False
+                bandera_sin_intentos = False
                 if primer_inicio_indice:
                     indice_listas = 0
                     primer_inicio_indice = False
@@ -176,7 +181,6 @@ while running:
                 volumen = 0
                 imagen_sonido = sound_img_off
                 sonido_fondo.set_volume(volumen)
-                
 
             if indice_listas < len(lista_preguntas) and bandera_fin_del_juego is False:
                 text_pregunta = text_desing(font_desing("LuckiestGuy.ttf", 38), lista_preguntas[indice_listas], COLOR_NEGRO)
@@ -192,7 +196,7 @@ while running:
             if bandera_iniciar_preguntas:
                 if opcion_elegida == respuesta_correcta and (opcion_elegida in ("a", "b", "c")) and bandera_fin_del_juego is False and intentos != 0:
                     sonido_respuesta_correcta.play()
-                    text_pregunta = text_respuesta_correcta
+                    bandera_respuesta_correcta = True
                     bandera_opcion_a = False
                     bandera_opcion_b = False
                     bandera_opcion_c = False
@@ -207,11 +211,17 @@ while running:
                 elif opcion_elegida != respuesta_correcta and (opcion_elegida in ("a", "b", "c")) and bandera_fin_del_juego is False and (intentos in (1,2)):
                     intentos -= 1
                     sonido_respuesta_incorrecta.play()
+                    if opcion_elegida == "a":
+                        bandera_opcion_a = False
+                    elif opcion_elegida == "b":
+                        bandera_opcion_b = False
+                    elif opcion_elegida == "c":
+                        bandera_opcion_c = False
 
                 #sin intentos
                 if intentos == 0 and (opcion_elegida in ("a", "b", "c")) and bandera_fin_del_juego is False:
                     puntaje = 0
-                    text_pregunta = text_respuesta_incorrecta
+                    bandera_sin_intentos = True
                     bandera_opcion_a = False
                     bandera_opcion_b = False
                     bandera_opcion_c = False
@@ -269,6 +279,12 @@ while running:
             x_texto = btn_opcion_c_background_coordinate.left + (btn_opcion_c_background_coordinate.width - txt_opcion_c.get_width()) // 2
             btn_opcion_c = pygame.Rect(x_texto, y_texto, (txt_opcion_c.get_width()+50), (txt_opcion_c.get_height()+15))
             screen.blit(txt_opcion_c, (x_texto, y_texto))
+        
+        if bandera_respuesta_correcta:
+            text_pregunta = text_respuesta_correcta
+        elif bandera_sin_intentos:
+            text_pregunta = text_respuesta_incorrecta
+            
         
     elif bandera_fin_del_juego:
         text_pregunta = text_fin_del_juego
