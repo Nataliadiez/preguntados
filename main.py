@@ -27,6 +27,7 @@ bandera_sonido_on = ""
 bandera_respuesta_correcta = False
 bandera_respuesta_incorrecta = False
 bandera_sin_intentos = False
+opciones_seleccionadas = []
 
 
 #Listas vacías para recibir los datos de la data
@@ -129,6 +130,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1: #click del botón derecho del mouse
             posicion_click = list(event.pos)
+            print(intentos)
+            print(opcion_elegida)
             if btn_para_pregunta.collidepoint(posicion_click) and bandera_fin_del_juego is False:
                 intentos = 2
                 opcion_elegida = ""
@@ -139,6 +142,7 @@ while running:
                 bandera_fin_del_juego = False
                 bandera_respuesta_correcta = False
                 bandera_sin_intentos = False
+                opciones_seleccionadas.clear()
                 if primer_inicio_indice:
                     indice_listas = 0
                     primer_inicio_indice = False
@@ -209,14 +213,11 @@ while running:
 
                 #respuesta incorrecta
                 elif opcion_elegida != respuesta_correcta and (opcion_elegida in ("a", "b", "c")) and bandera_fin_del_juego is False and (intentos in (1,2)):
-                    intentos -= 1
-                    sonido_respuesta_incorrecta.play()
-                    if opcion_elegida == "a":
-                        bandera_opcion_a = False
-                    elif opcion_elegida == "b":
-                        bandera_opcion_b = False
-                    elif opcion_elegida == "c":
-                        bandera_opcion_c = False
+                    if opcion_elegida not in opciones_seleccionadas:
+                        intentos -= 1
+                        sonido_respuesta_incorrecta.play()
+                        opciones_seleccionadas.append(opcion_elegida)
+                
 
                 #sin intentos
                 if intentos == 0 and (opcion_elegida in ("a", "b", "c")) and bandera_fin_del_juego is False:
