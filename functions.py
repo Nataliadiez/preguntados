@@ -2,6 +2,9 @@ import pygame
 from constantes import *
 
 def inicializacion_de_variables():
+    """
+    No recibe ningún parámetro y retorna un diccionario con las variables en su valor inicial.
+    """
     variables_iniciales = {
     "score": 0,
     "bandera_iniciar_preguntas": False,
@@ -23,7 +26,9 @@ def inicializacion_de_variables():
     return variables_iniciales
 
 def guardado_en_sublistas(lista: list):
-
+    """
+    Recibe como parámetro una lista de diccionarios, y retorna una lista con sublistas, ordenadas según su categoría.
+    """
     lista_preguntas = []
     lista_respuesta_a = []
     lista_respuesta_b = []
@@ -43,6 +48,10 @@ def guardado_en_sublistas(lista: list):
     return lista_salida
 
 def comenzar_juego(diccionario_variables: dict):
+    """
+    Recibe como parámetro un diccionario con las variables e iguala a sus valores iniciales aquellas que necesite para renderizar cada ronda de preguntas. 
+    Retorna dicho diccionario.
+    """
     diccionario_variables["intentos"] = 2
     diccionario_variables["opcion_elegida"] = ""
     diccionario_variables["bandera_opcion_a"] = True
@@ -57,6 +66,9 @@ def comenzar_juego(diccionario_variables: dict):
     return diccionario_variables
 
 def reiniciar_variables(diccionario_variables:dict):
+    """
+    Recibe como parámetro un diccionario con las variables y las iguala a sus valores iniciales. Retorna dicho diccionario.
+    """
     diccionario_variables["score"] = 0
     diccionario_variables["bandera_iniciar_preguntas"] = False
     diccionario_variables["indice_listas"] = 0
@@ -75,10 +87,12 @@ def reiniciar_variables(diccionario_variables:dict):
 
     return diccionario_variables
 
-
 def renderizar_textos():
+    """
+    No recibe parámetros y retorna un diccionario con todos los textos renderizados.
+    Para estilizar las fuentes, llama a la función renderizar_fuentes()
+    """
     fuentes = renderizar_fuentes()
-
     textos = {
         "txt_titulo_score": fuentes["fuente_txt_titulo_score"].render("SCORE:", True, COLOR_NEGRO),
         "text_score": fuentes["fuente_text_score"].render("0",True, COLOR_NEGRO),
@@ -95,8 +109,10 @@ def renderizar_textos():
     return textos
 
 def renderizar_fuentes():
+    """
+    No recibe parámetros y devuelve un diccionario con la importación de las fuentes utilizadas y su tamaño.
+    """
     fuente_importada = "Desafío preguntados/fonts/LuckiestGuy.ttf"
-
     fuentes = {
         "fuente_txt_titulo_score": pygame.font.Font(fuente_importada, 45),
         "fuente_text_score": pygame.font.Font(fuente_importada, 40),
@@ -112,8 +128,12 @@ def renderizar_fuentes():
 
     return fuentes
 
-
 def renderizar_imagenes():
+    """
+    No recibe parámetros y retorna un diccionario con las imágenes importadas.
+    También corrige el color de fondo, para que mantengan su estilo PNG.
+    """
+
     imagenes = {
         "logo": pygame.image.load('Desafío preguntados/img/logo.png').convert(),
         "background": pygame.image.load('Desafío preguntados/img/fondo.png').convert(),
@@ -143,18 +163,31 @@ def renderizar_imagenes():
 
     return imagenes
 
-
 def calcular_ancho_btn(texto:str):
+    """
+    Recibe como parámetro el texto del cual se desea calcular el ancho y retorna dicho cálculo.
+    Además suma un padding, para que el botón sea más grande que el texto.
+    """
     padding = 50
     ancho_btn = texto.get_width() + padding
     return ancho_btn
         
 def calcular_alto_btn(texto:str):
+    """
+    Recibe como parámetro el texto del cual se desea calcular el alto y retorna dicho cálculo.
+    Además suma un padding, para que el botón sea más grande que el texto.
+    """
     padding = 50
     alto_btn = texto.get_height() + padding
     return alto_btn
 
 def calcular_coordenada_btn(ancho_btn, alto_btn, x, y, screen):
+    """
+    Recibe como parámetro el ancho y alto de la imágen del botón que se desea blitear.
+    También recibe la coordenadas x, y de la posición que va a ocupar en la pantalla.
+    Y por último recibe el tamaño de la pantalla en el parámetro screen.
+    Retorna la imágen que va a servir como fondo para el botón, con las medidas adecuadas a este.
+    """
     imagen = renderizar_imagenes()
     btn_opcion_a_background = pygame.transform.scale(imagen["btn_opciones_background"], (ancho_btn, alto_btn))
     btn_opcion_a_background_coordinate = btn_opcion_a_background.get_rect()
