@@ -4,7 +4,13 @@ from functions import *
 from data import lista
 from colores import *
 
-""" Añadir música cuando la opción es correcta e incorrecta """
+"""
+TODO Modularizar la parte gráfica por un lado y la parte funcional por la otra.
+TODO Colocar toda el codigo de respuesta correcta en una sola funcion.
+TODO Meter las claves de los diccionarios en constantes.
+TODO NO USAR NUMEROS EN EL CÓDIGO: colocar todos los números en CONSTANTES (1200, 800) etc. 
+TODO return se escribe una única vez al final de la función, NO USARLA MÁS DE UNA VEZ
+"""
 
 #inicia pygame
 pygame.init()
@@ -18,7 +24,7 @@ variables_iniciales = inicializacion_de_variables()
 listas_datos = guardado_en_sublistas(lista)
 
 #tamaño pantalla (weight/height)
-screen = pygame.display.set_mode([1200,800]) #se crea la ventana
+screen = pygame.display.set_mode([ANCHO_VENTANA , ALTO_VENTANA]) #se crea la ventana
 
 #titulo ventana
 pygame.display.set_caption("Preguntados")
@@ -38,7 +44,7 @@ textos = renderizar_textos()
 fuentes = renderizar_fuentes()
 
 #música de fondo
-volumen = 0.2
+volumen = 0.0
 pygame.mixer.init()
 pygame.mixer.music.set_volume(0.7)
 sonido_fondo = pygame.mixer.Sound("Desafío preguntados/music/melodyloops-bright-shiny-morning.mp3")
